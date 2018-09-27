@@ -14,9 +14,11 @@ blueprint = make_github_blueprint(
 app.register_blueprint(blueprint, url_prefix="/login")
 cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 
+
 @app.route("/", strict_slashes=False)
 def index():
     return 'HI <a href="http://localhost:3000/github">click me to login in</a>'
+
 
 @app.route("/github", strict_slashes=False)
 def github_login():
@@ -26,7 +28,7 @@ def github_login():
     account_info = github.get('/user')
     if account_info.ok:
         account_info_json = account_info.json()
-        #return jsonify(account_info_json), 200
+        # return jsonify(account_info_json), 200
         return render_template('index.html', json=account_info_json.get('repos_url'))
     return "<h1>Request failed!</h1>"
 
