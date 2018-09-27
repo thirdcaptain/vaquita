@@ -7,13 +7,43 @@
   <meta name="description" content="Vaquita">
   <meta name="author" content="vaquita">
 
-  <link rel="stylesheet" href="css/styles.css">
+  <!--<link rel="stylesheet" href="css/styles.css">-->
 </head>
 <body>
-  <ul>
-  {% for repo in json %}
-    <li>repo.</li>
-  {% endfor %}   
+  <h1>Username:<span id='username'></span></h1>
+  <ul id='repo-list'>
+      
   </ul>     
 </body>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	$.ajax({
+	  type: 'GET',
+	  url: '{{ json }}',
+	  success: function(data) {
+	    console.log(data);
+	    $('#username').append(data[0].owner.login);
+	    let html = ''
+	    for (let i = 0; i < data.length; ++i) {
+		html += '<li>' + data[i].name;
+		if (data[i].private === true) {
+		   html += '<span> - Private Repo</span>';
+		}
+		html += '</li>';
+	    }
+	    $('#repo-list').append(html);
+	  },
+	  error: function (jqXHR, textStatus, errorThrown) {
+      	    console.log(jqXHR);
+      	    console.log(textStatus);
+      	    console.log(errorThrown);
+          },
+    	  dataType: 'json'
+	});
+});
+</script>
 </html>

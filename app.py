@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for
 from werkzeug.contrib.fixers import ProxyFix
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask import jsonify, render_template
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -11,6 +12,7 @@ blueprint = make_github_blueprint(
     client_secret="adc1d2ab72161efbfb7e159cc835504444df1a3f",
 )
 app.register_blueprint(blueprint, url_prefix="/login")
+cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 
 @app.route("/", strict_slashes=False)
 def index():
@@ -24,8 +26,8 @@ def github_login():
     account_info = github.get('/user')
     if account_info.ok:
         account_info_json = account_info.json()
-        return jsonify(account_info_json), 200
-        #return render_template('index.html', json=account_info_json.get('repos_url'))
+        #return jsonify(account_info_json), 200
+        return render_template('index.html', json=account_info_json.get('repos_url'))
     return "<h1>Request failed!</h1>"
 
 
