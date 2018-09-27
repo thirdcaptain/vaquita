@@ -16,7 +16,6 @@
 	<div class='container'>
 		<div class='container' id='username'>
 			<div class="row justify-content-center" id="logo-row">
-				<p>hi</p>
 			</div>
 
 			<h1>Username:<span id='username'></span></h1>
@@ -32,38 +31,36 @@
 	</div>
 	</ul>
 </body>
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
  crossorigin="anonymous"></script>
 <script>
-	$(document).ready(function () {
-		$.ajax({
-			type: 'GET',
-			url: '{{ json }}',
-			success: function (data) {
-				console.log(data);
-				$('#username').append(data[0].owner.login);
-				let html = ''
-				for (let i = 0; i < data.length; ++i) {
-					html += '<li>' + data[i].name;
-					if (data[i].private === true) {
-						html += '<span> - Private Repo</span>';
-					}
-					html += '</li>';
-				}
-				$('#repo-list').append(html);
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				console.log(jqXHR);
-				console.log(textStatus);
-				console.log(errorThrown);
-			},
-			dataType: 'json'
-		});
+$(document).ready(function(){
+	console.log('{{client_id}}');
+	$.ajax({
+	  type: 'GET',
+	  url: '{{ json }}?client_id={{ client_id }}&client_secret={{ client_secret }}',
+	  success: function(data) {
+	    console.log(data);
+	    $('#username').append(data[0].owner.login);
+	    let html = ''
+	    for (let i = 0; i < data.length; ++i) {
+		html += '<li>' + data[i].name;
+		if (data[i].private === true) {
+		   html += '<span> - Private Repo</span>';
+		}
+		html += '</li>';
+	    }
+	    $('#repo-list').append(html);
+	  },
+	  error: function (jqXHR, textStatus, errorThrown) {
+      	    console.log(jqXHR);
+      	    console.log(textStatus);
+      	    console.log(errorThrown);
+          },
+    	  dataType: 'json'
 	});
+});
 </script>
 
 </html>
+
