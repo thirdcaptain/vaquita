@@ -8,18 +8,20 @@ export default class Repo extends Component {
     const { repo } = this.props;
     const { showRepoInfo } = this.state;
     return (
-      <div className="card card-body mb-3">
+      <div className="card card-body">
         <h4>
-          {repo.name}
-          <i
-            onClick={() =>
-              this.setState({
-                showRepoInfo: !this.state.showRepoInfo
-              })
-            }
-            className="fas fa-sort-down"
-            style={{ cursor: "pointer" }}
-          />
+          <span className="text-success">
+            <small>{repo.name} </small>
+            <i
+              onClick={() =>
+                this.setState({
+                  showRepoInfo: !this.state.showRepoInfo
+                })
+              }
+              className="fas fa-arrow-down float-right"
+              style={{ cursor: "pointer" }}
+            />
+          </span>
         </h4>
         {showRepoInfo ? (
           <ul className="list-group">

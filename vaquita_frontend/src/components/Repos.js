@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Repo from "./Repo";
+import axios from "axios";
 
 class Repos extends Component {
   state = {
@@ -21,11 +22,17 @@ class Repos extends Component {
       }
     ]
   };
+  componentWillMount() {
+    axios
+      .get("http://localhost:5000/github")
+      .then(res => console.log("RESPONSE", res))
+      .catch(err => console.log("ERROR", err.response));
+  }
   render() {
     const { repos } = this.state;
     return (
       <React.Fragment>
-        <h1 className="display-4 mb-2">
+        <h1 className="display-4 mb-5 mt-5">
           <span className="text-success">Repo</span> List
         </h1>
         {repos.map(repo => (
