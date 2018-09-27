@@ -17,7 +17,7 @@ cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 
 @app.route("/", strict_slashes=False)
 def index():
-    return 'HI <a href="http://localhost:3000/github">click me to login in</a>'
+    return 'HI <a id="clickMe" href="http://localhost:3000/github">click me to login in</a>'
 
 
 @app.route("/github", strict_slashes=False)
