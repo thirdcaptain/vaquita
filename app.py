@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, jsonify
 from werkzeug.contrib.fixers import ProxyFix
 from flask_dance.contrib.github import make_github_blueprint, github
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = "supersekrit"
@@ -10,7 +11,7 @@ blueprint = make_github_blueprint(
     client_secret="adc1d2ab72161efbfb7e159cc835504444df1a3f",
 )
 app.register_blueprint(blueprint, url_prefix="/login")
-
+cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 @app.route("/github")
 def index():
     if not github.authorized:
