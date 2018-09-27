@@ -11,7 +11,9 @@ blueprint = make_github_blueprint(
     client_secret="adc1d2ab72161efbfb7e159cc835504444df1a3f",
 )
 app.register_blueprint(blueprint, url_prefix="/login")
-cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
+CORS(app)
+
+
 @app.route("/github")
 def index():
     if not github.authorized:
@@ -21,6 +23,7 @@ def index():
         account_info_json = account_info.json()
         return jsonify(account_info_json), 200
     return '<h1>Request failed!</h1>'
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
