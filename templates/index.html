@@ -8,27 +8,21 @@
 	<meta name="description" content="Vaquita">
 	<meta name="author" content="vaquita">
 	<link href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../static/main.css" rel="stylesheet">
+	<link href="static/main.css" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="css/styles.css"> -->
 </head>
 
 <body>
 	<div class='container'>
 		<div class='container' id='username'>
-			<h1>Username: {{ result.login }}</h1>
 			<div class="row justify-content-center" id="logo-row">
-				<section class='col-6'>
-					<ul>
-						<li>{{ result.name }}</li>
-					</ul>
 			</div>
 
+			<h1>Username:<span id='username'></span></h1>
+			<ul id='repo-list'>
 		</div>
 
 		<div class='container' id='repo'>
-			<section class='col-4'>
-
-				<ul id='repo-list'>
 		</div>
 
 		<div class='container' id='footer'>
@@ -37,23 +31,32 @@
 	</div>
 	</ul>
 </body>
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
  crossorigin="anonymous"></script>
 <script>
 	$(document).ready(function () {
+		console.log('{{client_id}}');
 		$.ajax({
 			type: 'GET',
-			url: '{{ json }}',
+			url: '{{ json }}?client_id={{ client_id }}&client_secret={{ client_secret }}',
 			success: function (data) {
-				console.log(data);
 				$('#username').append(data[0].owner.login);
 				let html = ''
 				for (let i = 0; i < data.length; ++i) {
-					html += '<li>' + data[i].name;
+					html +=
+						`
+
+		<h4>
+          <span className="text-success">
+            <small>{data[i].name} </small>
+            <i
+              className="fas fa-arrow-down float-right"
+              style={{ cursor: "pointer" }}
+            />
+          </span>
+        </h4>
+      </div>`
+
 					if (data[i].private === true) {
 						html += '<span> - Private Repo</span>';
 					}
